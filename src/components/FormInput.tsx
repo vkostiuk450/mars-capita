@@ -10,7 +10,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 const Input = styled(_Input)`
   border: 1px solid white;
-  padding: 0.4rem 0.7rem;
+  padding: 0.3rem 0.7rem;
 `;
 
 type IFormInputProps = {
@@ -43,7 +43,11 @@ const FormInput: FC<IFormInputProps> = ({
             fullWidth
             disableUnderline
             size="small"
-            sx={{ borderRadius: 2, color: outline, borderColor: outline }}
+            sx={{
+              borderRadius: 1,
+              color: outline,
+              borderColor: outline === "black" ? "rgb(133, 133, 133)" : outline,
+            }}
             error={!!errors[name]}
             {...otherProps}
           />

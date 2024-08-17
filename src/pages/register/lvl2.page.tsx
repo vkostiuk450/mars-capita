@@ -1,4 +1,13 @@
-import { Box, FormLabel, Typography } from "@mui/material";
+import {
+  Box,
+  FormLabel,
+  Typography,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  TextField,
+} from "@mui/material";
 import LogoSide from "../../assets/bg-logo__side.png";
 import { styled } from "@mui/material/styles";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -10,6 +19,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../../redux/api/authApi";
 import { LoadingButton as _LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
+import ReactPhoneInput from "react-phone-input-material-ui";
+import { ArrowRight } from "@mui/icons-material";
 
 const LoadingButton = styled(_LoadingButton)`
   padding: 0.6rem 0;
@@ -34,6 +45,8 @@ const LinkItem = styled(Link)`
 const registerSchema = object({
   firstname: string().min(1, "First name is required").max(100),
   lastname: string().min(1, "Last name is required").max(100),
+  gender: string(),
+  mobile: string().min(1, "Mobile is required"),
   email: string()
     .min(1, "Email address is required")
     .email("Email Address is invalid"),
@@ -161,68 +174,134 @@ const LVL2RegisterPage = () => {
               onSubmit={handleSubmit(onSubmitHandler)}
               noValidate
               autoComplete="off"
-              maxWidth="35rem"
+              maxWidth="30rem"
               width="100%"
               sx={{ mt: 2 }}
             >
               <Box display="flex" gap={2}>
                 <Box>
-                  <FormLabel sx={{ ml: 2 }}>First Name</FormLabel>
-                  <FormInput
-                    name="firstname"
-                    label="First Name"
-                    outline="black"
-                  />
+                  <FormLabel sx={{ ml: 1 }}>First Name</FormLabel>
+                  <FormInput name="firstname" label="" outline="black" />
                 </Box>
                 <Box>
-                  <FormLabel sx={{ ml: 2 }}>Last Name</FormLabel>
-                  <FormInput
-                    name="lastname"
-                    label="Last Name"
-                    outline="black"
-                  />
+                  <FormLabel sx={{ ml: 1 }}>Last Name</FormLabel>
+                  <FormInput name="lastname" label="" outline="black" />
                 </Box>
               </Box>
               <Box display="flex" gap={2}>
                 <Box sx={{ flex: 1 }}>
-                  <FormLabel sx={{ ml: 2 }}>Age</FormLabel>
-                  <FormInput name="age" label="Age" outline="black" />
+                  <FormLabel sx={{ ml: 1 }}>Age</FormLabel>
+                  <FormInput name="age" label="" outline="black" />
                 </Box>
-                <Box sx={{ flex: 1 }}></Box>
+                <FormControl sx={{ flex: 1 }}>
+                  <FormLabel id="demo-row-radio-buttons-group-label">
+                    Gender
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="gender"
+                  >
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio color="success" />}
+                      label="Male"
+                      labelPlacement="start"
+                    />
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio color="success" />}
+                      label="Female"
+                      labelPlacement="start"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </Box>
-              <FormInput
-                name="email"
-                label="Email Address"
-                type="email"
-                outline="black"
-              />
+              <Box display="flex" gap={2}>
+                <FormControl sx={{ flex: 1 }}>
+                  <FormLabel sx={{ ml: 1 }}>Email</FormLabel>
+                  <FormInput
+                    name="email"
+                    label=""
+                    type="email"
+                    outline="black"
+                  />
+                </FormControl>
+                <FormControl sx={{ flex: 1 }}>
+                  <FormLabel sx={{ ml: 1 }}>Mobile</FormLabel>
+                  <ReactPhoneInput
+                    placeholder="Country Code + Phone No"
+                    inputProps={{ size: "small", label: "", name: "mobile" }}
+                    component={TextField}
+                  />
+                </FormControl>
+              </Box>
+
               <FormInput
                 name="password"
-                label="Password"
+                label="Set your new Password"
                 type="password"
                 outline="black"
               />
               <FormInput
                 name="passwordConfirm"
-                label="Confirm Password"
+                label="Re-Enter your Password"
                 type="password"
                 outline="black"
               />
-              <Typography sx={{ fontSize: "0.9rem", mb: "1rem" }}>
-                Already have an account?{" "}
-                <LinkItem to="/login">Login Here</LinkItem>
+
+              <Typography fontSize={12} width={350}>
+                By creating an account, i agreed to{" "}
+                <Box component="span" color="#FF4949">
+                  MarsCAPITA’s Terms of Use and Privacy Policy
+                </Box>
               </Typography>
 
               <LoadingButton
                 variant="contained"
-                sx={{ mt: 1 }}
+                sx={{
+                  px: 2,
+                  py: 1,
+                  bgcolor: "#9DACFF",
+                  color: "black",
+                  ":hover": {
+                    opacity: 0.6,
+                    bgcolor: "#9DACFF",
+                  },
+                  textTransform: "none",
+                  mt: 2,
+                  position: "relative",
+                }}
                 fullWidth
                 disableElevation
                 type="submit"
-                loading={isLoading}
+                onClick={() => {
+                  navigate("/register/connect/394829384938294");
+                }}
               >
-                Sign Up
+                Next
+                <ArrowRight sx={{ position: "absolute", right: 10 }} />
               </LoadingButton>
+
+              <Typography
+                sx={{ fontSize: "0.9rem", mt: "1rem" }}
+                fontWeight={600}
+                textAlign="right"
+              >
+                Already have an account? Login Here.
+                <LinkItem
+                  to="/login/internal"
+                  sx={{
+                    bgcolor: "#28CE4C",
+                    px: 3,
+                    py: 1,
+                    borderRadius: 2,
+                    ml: 2,
+                  }}
+                >
+                  Log in
+                </LinkItem>
+              </Typography>
             </Box>
           </FormProvider>
         </Box>
