@@ -12,6 +12,7 @@ import AdminPage from "./pages/admin.page";
 import LVL1RegisterPage from "./pages/register/lvl1.page";
 import LVL2RegisterPage from "./pages/register/lvl2.page";
 import ProfileCustomerPage from "./pages/profile/customer.page";
+import ConnectRegisterPage from "./pages/register/connect.page";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="register">
           <Route path="lvl1" element={<LVL1RegisterPage />} />
           <Route path="lvl2/:regId" element={<LVL2RegisterPage />} />
+          <Route path="connect/:regId" element={<ConnectRegisterPage />} />
         </Route>
         <Route path="profile">
           <Route path="customer" element={<ProfileCustomerPage />} />
