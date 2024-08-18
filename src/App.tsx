@@ -8,11 +8,13 @@ import UnauthorizePage from "./pages/unauthorize.page";
 import RequireUser from "./components/requireUser";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import AdminPage from "./pages/admin.page";
 import LVL1RegisterPage from "./pages/register/lvl1.page";
 import LVL2RegisterPage from "./pages/register/lvl2.page";
 import ProfileCustomerPage from "./pages/profile/customer.page";
 import ConnectRegisterPage from "./pages/register/connect.page";
+import CustomerLoginPage from "./pages/login/customer.page";
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
         </Route>
         <Route path="login">
           <Route path="internal" element={<InternalLoginPage />} />
+          <Route path="customer" element={<CustomerLoginPage />} />
         </Route>
         <Route path="register">
           <Route path="lvl1" element={<LVL1RegisterPage />} />

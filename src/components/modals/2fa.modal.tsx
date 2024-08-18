@@ -22,12 +22,14 @@ const TwoFAModal = ({
   seconds,
   setSeconds,
   email,
+  onVerify,
 }: {
   close: boolean;
   onClose: Function | null;
   seconds: number;
   setSeconds: Function;
   email: string;
+  onVerify: Function;
 }) => {
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("danger");
@@ -121,6 +123,7 @@ const TwoFAModal = ({
             position: "absolute",
             right: 20,
           }}
+          onClick={() => onVerify()}
         >
           Verify
         </LoadingButton>

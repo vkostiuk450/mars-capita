@@ -1,17 +1,23 @@
-import { Box, Typography, Modal, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Alert,
+  Collapse,
+  IconButton,
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../../components/FormInput";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { LoadingButton as _LoadingButton } from "@mui/lab";
 import { useLoginUserMutation } from "../../redux/api/authApi";
+import { useState } from "react";
 
-import LogoBack from "../../assets/bg-logo__xl.png";
-import TwoFAModal from "../../components/modals/2fa.modal";
-import ForgotModal from "../../components/modals/forgot.modal";
-import { useNavigate } from "react-router";
+import LogoSide from "../../assets/bg-logo__side.png";
 
 const LoadingButton = styled(_LoadingButton)`
   padding: 0.6rem 0;
@@ -37,12 +43,8 @@ const loginSchema = object({
 
 export type LoginInput = TypeOf<typeof loginSchema>;
 
-const InternalLoginPage = () => {
-  const [openVerify, setOpenVerify] = useState(false);
-  const [openForgot, setOpenForgot] = useState(false);
-  const [seconds, setSeconds] = useState(60);
-
-  const navigate = useNavigate();
+const CustomerLoginPage = () => {
+  const [open, setOpen] = useState(false);
 
   const methods = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -55,13 +57,10 @@ const InternalLoginPage = () => {
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
-    getValues,
   } = methods;
 
   useEffect(() => {
     if (isSuccess) {
-      setOpenVerify(true);
-      setSeconds(60);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,19 +85,39 @@ const InternalLoginPage = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        backgroundColor: "#4C0098",
       }}
     >
-      <Box sx={{ flex: 1, height: "95%" }}>
-        <Box component="img" src={LogoBack} height="100%" />
-      </Box>
       <Box
         sx={{
           flex: 1,
           display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          bgcolor: "#4C0098",
+          height: "100%",
+        }}
+      >
+        <Box component="img" src={LogoSide} />
+        <Typography
+          color="white"
+          fontSize={22}
+          width={289}
+          textAlign="center"
+          mt={1}
+        >
+          Your Fund | Your Account Your Profit
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          flex: 2,
+          display: "flex",
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
+          bgcolor: "#F7F7F7",
+          height: "100%",
         }}
       >
         <FormProvider {...methods}>
@@ -116,28 +135,28 @@ const InternalLoginPage = () => {
             <Typography
               textAlign="left"
               sx={{
-                color: "white",
+                color: "#4C0098",
                 fontSize: 35,
                 letterSpacing: 1,
                 fontFamily: "Livvic",
-                fontWeight: 100,
+                fontWeight: 500,
                 mb: 2,
               }}
             >
               LOGIN
             </Typography>
-            <Box sx={{ height: 220 }}>
+            <Box sx={{ height: 150 }}>
               <FormInput
                 name="email"
                 label="Email"
                 type="email"
-                outline="white"
+                outline="black"
               />
               <FormInput
                 name="password"
                 label="Password"
                 type="password"
-                outline="white"
+                outline="black"
               />
               {isError && (
                 <Typography color="#E80345" textAlign="center">
@@ -151,11 +170,8 @@ const InternalLoginPage = () => {
               fullWidth
               disableElevation
               type="submit"
+              sx={{ bgcolor: "#98A7FA" }}
               loading={isLoading}
-              onClick={() => {
-                setOpenVerify(true);
-                setSeconds(60);
-              }}
             >
               Login
             </LoadingButton>
@@ -164,45 +180,59 @@ const InternalLoginPage = () => {
               sx={{ fontSize: "0.9rem", mt: "1rem", textAlign: "center" }}
             >
               <Button
-                style={{ color: "#fff" }}
-                onClick={() => setOpenForgot(true)}
+                style={{ color: "#FF3C3C", position: "relative" }}
+                onClick={() => setOpen(true)}
               >
                 Forgot Password
+                <Collapse
+                  in={open}
+                  sx={{
+                    position: "absolute",
+                    top: "110%",
+                  }}
+                >
+                  <Alert
+                    icon={false}
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        size="small"
+                        onClick={(event) => {
+                          setOpen(false);
+                          event.stopPropagation();
+                        }}
+                      >
+                        <Close fontSize="inherit" />
+                      </IconButton>
+                    }
+                    sx={{ mb: 2, bgcolor: "white", width: 420 }}
+                  >
+                    <Typography
+                      textAlign="center"
+                      color="#4C0098"
+                      fontSize={14}
+                      fontWeight={600}
+                      textTransform="none"
+                    >
+                      Reset Password
+                    </Typography>
+                    <Typography mt={2} fontSize={14} textTransform="none">
+                      If you have forgotten your password, please contact your
+                      <Box component="span" color="#FF3C3C">
+                        “Agent”
+                      </Box>
+                      to reset it. We apologize for any inconvenience; this is
+                      for security purposes.
+                    </Typography>
+                  </Alert>
+                </Collapse>
               </Button>
             </Typography>
           </Box>
         </FormProvider>
       </Box>
-
-      <Modal
-        open={openVerify}
-        onClose={() => setOpenVerify(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box>
-          <TwoFAModal
-            close={true}
-            onClose={() => setOpenVerify(false)}
-            seconds={seconds}
-            setSeconds={setSeconds}
-            email={getValues("email")}
-            onVerify={() => {
-              navigate("/profile/customer");
-            }}
-          />
-        </Box>
-      </Modal>
-      <Modal open={openForgot} onClose={() => setOpenForgot(false)}>
-        <Box>
-          <ForgotModal
-            onClose={() => setOpenForgot(false)}
-            email={getValues("email")}
-          />
-        </Box>
-      </Modal>
     </Box>
   );
 };
 
-export default InternalLoginPage;
+export default CustomerLoginPage;
