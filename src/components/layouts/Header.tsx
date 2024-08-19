@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import MarsCapitaLogo from "../assets/MarsCapita-Purple 3.png";
-import LogoAvatar from "../assets/3D Logo 4 3.png";
-import userAvatar from "../assets/user avatar.png";
+import MarsCapitaLogo from "../../assets/MarsCapita-Purple 3.png";
+import LogoAvatar from "../../assets/3D Logo 4 3.png";
+import userAvatar from "../../assets/user avatar.png";
 
-const CustomerHeader = () => {
+const Header = () => {
   return (
     <Box
       component={"section"}
@@ -40,4 +40,4 @@ const CustomerHeader = () => {
   );
 };
 
-export default CustomerHeader;
+export default Header;

@@ -44,7 +44,6 @@ const ProfileCustomerPage = () => {
 
   return (
     <>
-      <CustomerHeader />
       <Box
         component={"section"}
         sx={{

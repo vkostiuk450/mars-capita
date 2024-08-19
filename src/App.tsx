@@ -1,7 +1,6 @@
 import { CssBaseline } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import Layout from "./components/layout";
-import ProfilePage from "./pages/profile.page";
+import Layout from "./components/layouts/layout";
 import HomePage from "./pages/home.page";
 import InternalLoginPage from "./pages/login/internal.page";
 import UnauthorizePage from "./pages/unauthorize.page";
@@ -15,6 +14,7 @@ import LVL2RegisterPage from "./pages/register/lvl2.page";
 import ProfileCustomerPage from "./pages/profile/customer.page";
 import ConnectRegisterPage from "./pages/register/connect.page";
 import CustomerLoginPage from "./pages/login/customer.page";
+import SideLayout from "./components/layouts/SideLayout";
 
 function App() {
   return (
@@ -27,14 +27,17 @@ function App() {
             <Route index element={<HomePage />} />
           </Route>
 
-          {/* Private Route */}
-          <Route element={<RequireUser allowedRoles={["user", "admin"]} />}>
-            <Route path="profile" element={<ProfilePage />} />
-          </Route>
           <Route element={<RequireUser allowedRoles={["admin"]} />}>
             <Route path="admin" element={<AdminPage />} />
           </Route>
           <Route path="unauthorized" element={<UnauthorizePage />} />
+
+          <Route path="profile">
+            <Route path="customer" element={<ProfileCustomerPage />} />
+          </Route>
+          <Route element={<SideLayout />}>
+            <Route path="parameters" element={<></>} />
+          </Route>
         </Route>
         <Route path="login">
           <Route path="internal" element={<InternalLoginPage />} />
@@ -44,9 +47,6 @@ function App() {
           <Route path="lvl1" element={<LVL1RegisterPage />} />
           <Route path="lvl2/:regId" element={<LVL2RegisterPage />} />
           <Route path="connect/:regId" element={<ConnectRegisterPage />} />
-        </Route>
-        <Route path="profile">
-          <Route path="customer" element={<ProfileCustomerPage />} />
         </Route>
       </Routes>
     </>

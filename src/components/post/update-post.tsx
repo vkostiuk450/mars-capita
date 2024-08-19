@@ -13,7 +13,6 @@ import {
 } from "react-hook-form";
 import { object, string, TypeOf, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FileUpload from "../FileUpload/FileUpload";
 import { LoadingButton } from "@mui/lab";
 import { FC, useEffect } from "react";
 import { pickBy } from "lodash";
@@ -147,7 +146,7 @@ const UpdatePost: FC<IUpdatePostProp> = ({ setOpenPostModal, post }) => {
               />
             )}
           />
-          <FileUpload limit={1} name="image" multiple={false} />
+
           <LoadingButton
             variant="contained"
             fullWidth
